@@ -30,8 +30,12 @@ export class MessagesService {
     return this.messages;
   }
 
-  findById(id: number) {
-    return this.messages.find((message) => message.id === id);
+  async findById(id: number) {
+    const message = this.messages.find((message) => message.id === id);
+    if (!message) {
+      throw Error(`Nome com o ID: '${id}' não foi encontrado!`);
+    }
+    return message;
   }
 
   create(message: IMessage) {
@@ -47,6 +51,6 @@ export class MessagesService {
   delete(id: number) {
     const index = this.messages.findIndex((message: IMessage) => message.id === id);
     delete this.messages[index];
-    return "Name deleted with success";
+    return 'Name deleted with success';
   }
 }
