@@ -28,11 +28,11 @@ export class MessagesService {
   ];
 
   findAll() {
-    return this.messages;
+    return this.messages.filter(Boolean);
   }
 
   async findById(id: number) {
-    const message = this.messages.find((message) => message.id === id);
+    const message = this.messages.find((message) => message?.id === id);
     if (!message) {
       throw Error(`Nome com o ID: '${id}' não foi encontrado!`);
     }
@@ -51,8 +51,7 @@ export class MessagesService {
   }
 
   async update(id: number, messageDTO: IMessageDTO) {
-    const index = this.messages.findIndex((message: IMessage) => message.id === id);
-    console.log({index});
+    const index = this.messages.findIndex((message: IMessage) => message?.id === id);
     if (index < 0) {
       throw Error(`Nome com o ID: '${id}' não foi encontrado!`);
     }
@@ -64,8 +63,12 @@ export class MessagesService {
     return message;
   }
 
-  delete(id: number) {
-    const index = this.messages.findIndex((message: IMessage) => message.id === id);
+  async delete(id: number) {
+    const index = this.messages.findIndex((message: IMessage) => message?.id === id);
+    console.log({ index });
+    if (index < 0) {
+      throw Error(`Nome com o ID: '${id}' não foi encontrado!`);
+    }
     delete this.messages[index];
     return 'Name deleted with success';
   }
